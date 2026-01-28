@@ -1,22 +1,28 @@
 import { StyleSheet } from 'react-native';
 
 import ParallaxScrollView from '@/components/parallax-scroll-view';
+import RouteCard from '@/components/route-card';
+import ThemedCard from '@/components/themed-card';
 import { ThemedView } from '@/components/themed-view';
+import stationsData from '@/data/trains/lrt2/stations.json';
 import MapView from 'react-native-maps';
+
 export default function HomeScreen() {
   return (
     <ParallaxScrollView headerBackgroundColor={'primary-default'}>
       <ThemedView style={styles.mapContainer}>
         <MapView
-          style={styles.map}
+          style={StyleSheet.absoluteFill}
           initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+            latitude: 14.5995,
+            longitude: 120.9842,
+            latitudeDelta: 0.05,
+            longitudeDelta: 0.05,
           }}
         />
       </ThemedView>
+      <RouteCard stations={stationsData.stations} />
+      <ThemedCard style={styles.fareCard} />
     </ParallaxScrollView>
   );
 }
@@ -33,14 +39,14 @@ const styles = StyleSheet.create({
   },
   mapContainer: {
     backgroundColor: '#ddd',
-    height: '40%',
+    height: 250,
     width: 'auto',
-    borderRadius: 20,
+    borderRadius: 10,
+    overflow: 'hidden',
   },
-  map: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 20,
+  fareCard: {
+    height: 600,
+    width: 'auto',
   },
   reactLogo: {
     height: 178,

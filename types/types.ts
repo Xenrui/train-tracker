@@ -18,3 +18,15 @@ export interface ThemedTextProps extends TextProps, ThemeProps {
 }
 
 export interface ThemedViewProps extends ViewProps, ThemeProps {}
+
+export interface Station {
+  id: string;
+  name: string;
+  order: number;
+  is_terminal?: boolean;
+}
+
+export interface StationsData {
+  line: string;
+  stations: Station[];
+}

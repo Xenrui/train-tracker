@@ -36,13 +36,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   defaultSemiBold: {
-    fontSize: 16,
+    fontSize: 20,
   },
   title: {
     fontSize: 36,
   },
   subtitle: {
-    fontSize: 20,
+    fontSize: 24,
   },
   link: {
     fontSize: 16,

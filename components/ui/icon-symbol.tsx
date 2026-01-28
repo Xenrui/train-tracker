@@ -22,6 +22,7 @@ const MAPPING = {
   'gearshape.fill': 'settings',
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
+  'arrow.up.arrow.down': 'swap-vert',
 } as IconMapping;
 
 /**
