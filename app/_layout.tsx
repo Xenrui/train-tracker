@@ -16,7 +16,7 @@ import {
   Inter_700Bold,
   useFonts,
 } from '@expo-google-fonts/inter';
-import { View } from 'react-native';
+import { Text } from 'react-native';
 export const unstable_settings = {
   anchor: '(tabs)',
 };
@@ -32,7 +32,7 @@ export default function RootLayout() {
   });
 
   if (!fontsLoaded) {
-    return <View>Loading fonts</View>;
+    return <Text>Loading Font</Text>;
   }
 
   return (

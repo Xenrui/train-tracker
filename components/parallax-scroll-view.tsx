@@ -66,10 +66,10 @@ export default function ParallaxScrollView({
         <ThemedView
           style={[styles.headerContent, { backgroundColor: primary }]}
         >
-          <ThemedText type="title" lightColor="#fff">
+          <ThemedText type="title" color="textNeutral">
             Lakbay
           </ThemedText>
-          <ThemedText type="small" lightColor="#fff">
+          <ThemedText type="small" color="textNeutral">
             A Commuter&apos;s Guide for the Filipinos
           </ThemedText>
         </ThemedView>
@@ -92,13 +92,12 @@ const styles = StyleSheet.create({
     height: HEADER_HEIGHT,
     justifyContent: 'flex-end',
     paddingBlockEnd: 20,
-    gap: 8,
     overflow: 'hidden',
     paddingHorizontal: 20,
   },
   content: {
     flex: 1,
-    padding: 32,
+    padding: 10,
     gap: 16,
     overflow: 'hidden',
     borderTopStartRadius: 20,
