@@ -184,8 +184,6 @@ export default function RouteCard({ stations, style }: RouteCardProps) {
 
 const styles = StyleSheet.create({
   card: {
-    padding: 20,
-    borderRadius: 16,
     flexDirection: 'row',
     flex: 1,
   },
