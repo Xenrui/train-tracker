@@ -11,8 +11,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { ThemedText } from './themed-text';
-import { ThemedView } from './themed-view';
+import { ThemedText } from './ThemedText';
+import { ThemedView } from './ThemedView';
 
 interface StationPickerModalProps {
   visible: boolean;

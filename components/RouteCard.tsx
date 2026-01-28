@@ -1,5 +1,5 @@
-import ThemedCard from '@/components/themed-card';
-import { IconSymbol } from '@/components/ui/icon-symbol';
+import ThemedCard from '@/components/ThemedCard';
+import { IconSymbol } from '@/components/ui/IconSymbol';
 import { darkTheme, lightTheme } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Station } from '@/types/types';
@@ -10,8 +10,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import StationPickerModal from './station-picker-modal';
-import { ThemedText } from './themed-text';
+import StationPickerModal from './StationPickerModal';
+import { ThemedText } from './ThemedText';
 
 interface RouteCardProps {
   stations: Station[];

@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
 
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import RouteCard from '@/components/route-card';
-import ThemedCard from '@/components/themed-card';
-import { ThemedView } from '@/components/themed-view';
+import ParallaxScrollView from '@/components/ParallaxScrollView';
+import RouteCard from '@/components/RouteCard';
+import ThemedCard from '@/components/ThemedCard';
+import { ThemedView } from '@/components/ThemedView';
 import stationsData from '@/data/trains/lrt2/stations.json';
 import MapView from 'react-native-maps';
 
