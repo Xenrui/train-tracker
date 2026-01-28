@@ -67,23 +67,17 @@ export const lightTheme = {
   tint: palette.primary[500],
 };
 
+// darkTheme
 export const darkTheme = {
-  primary: {
-    light: palette.primary[300],
-    DEFAULT: palette.primary[500],
-    dark: palette.primary[700],
-  },
-  secondary: {
-    light: palette.secondary[300],
-    DEFAULT: palette.secondary[500],
-    dark: palette.secondary[700],
-  },
-  gray: {
-    light: palette.gray[200],
-    DEFAULT: palette.gray[500],
-    dark: palette.gray[900],
-  },
-
+  'primary-light': palette.primary[300],
+  'primary-default': palette.primary[500],
+  'primary-dark': palette.primary[700],
+  'secondary-light': palette.secondary[300],
+  'secondary-default': palette.secondary[500],
+  'secondary-dark': palette.secondary[700],
+  'neutral-light': palette.gray[200],
+  'neutral-default': palette.gray[500],
+  'neutral-dark': palette.gray[900],
   background: '#151718',
   surface: '#1A1C1D',
   textPrimary: '#ECEDEE',

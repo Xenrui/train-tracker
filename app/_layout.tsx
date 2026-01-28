@@ -27,6 +27,10 @@ export default function RootLayout() {
     Inter_600SemiBold,
     Inter_700Bold,
   });
+
+  if (!fontsLoaded) {
+    return <div>Loading fonts</div>;
+  }
   
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
