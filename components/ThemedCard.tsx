@@ -31,9 +31,9 @@ export default ThemedCard;
 
 const styles = StyleSheet.create({
   card: {
-    margin: 10,
+    marginHorizontal: 10,
     padding: 20,
     borderRadius: 16,
-    height: '100%'
+    height: '100%',
   },
 });

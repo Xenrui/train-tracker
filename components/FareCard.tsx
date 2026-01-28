@@ -7,7 +7,7 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 type FareCardProps = {
   price: number;
-  style: any;
+  style?: any;
 };
 
 type FareType = 'beep' | 'single';

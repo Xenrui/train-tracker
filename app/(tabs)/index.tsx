@@ -22,7 +22,7 @@ export default function HomeScreen() {
         />
       </ThemedView>
       <RouteCard stations={stationsData.stations} />
-      <FareCard price={14} style={styles.fareCard} />
+      <FareCard price={14} />
     </ParallaxScrollView>
   );
 }
@@ -43,10 +43,6 @@ const styles = StyleSheet.create({
     width: 'auto',
     borderRadius: 10,
     overflow: 'hidden',
-  },
-  fareCard: {
-    height: 'auto',
-    width: 'auto',
   },
   reactLogo: {
     height: 178,
