@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
 
+import FareCard from '@/components/FareCard';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import RouteCard from '@/components/RouteCard';
-import ThemedCard from '@/components/ThemedCard';
 import { ThemedView } from '@/components/ThemedView';
 import stationsData from '@/data/trains/lrt2/stations.json';
 import MapView from 'react-native-maps';
@@ -22,7 +22,7 @@ export default function HomeScreen() {
         />
       </ThemedView>
       <RouteCard stations={stationsData.stations} />
-      <ThemedCard style={styles.fareCard} />
+      <FareCard price={14} style={styles.fareCard} />
     </ParallaxScrollView>
   );
 }
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   fareCard: {
-    height: 600,
+    height: 'auto',
     width: 'auto',
   },
   reactLogo: {
