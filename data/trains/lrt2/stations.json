@@ -1,0 +1,72 @@
+{
+  "line": "LRT-2",
+  "stations": [
+    {
+      "id": "recto",
+      "name": "Recto",
+      "order": 1,
+      "is_terminal": true
+    },
+    {
+      "id": "legarda",
+      "name": "Legarda",
+      "order": 2
+    },
+    {
+      "id": "pureza",
+      "name": "Pureza",
+      "order": 3
+    },
+    {
+      "id": "v_mapa",
+      "name": "V. Mapa",
+      "order": 4
+    },
+    {
+      "id": "j_ruiz",
+      "name": "J. Ruiz",
+      "order": 5
+    },
+    {
+      "id": "gilmore",
+      "name": "Gilmore",
+      "order": 6
+    },
+    {
+      "id": "betty_go",
+      "name": "Betty Go-Belmonte",
+      "order": 7
+    },
+    {
+      "id": "cubao",
+      "name": "Cubao",
+      "order": 8
+    },
+    {
+      "id": "anonas",
+      "name": "Anonas",
+      "order": 9
+    },
+    {
+      "id": "katipunan",
+      "name": "Katipunan",
+      "order": 10
+    },
+    {
+      "id": "santolan",
+      "name": "Santolan",
+      "order": 11
+    },
+    {
+      "id": "marikina",
+      "name": "Marikina–Pasig",
+      "order": 12
+    },
+    {
+      "id": "antipolo",
+      "name": "Antipolo",
+      "order": 13,
+      "is_terminal": true
+    }
+  ]
+}
