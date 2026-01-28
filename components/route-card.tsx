@@ -124,9 +124,11 @@ export default function RouteCard({ stations, style }: RouteCardProps) {
             </TouchableOpacity>
           </View>
         </View>
+      </ThemedCard>
 
-        {/* Route Info */}
-        {/* {fromStation && toStation && (
+      {/* Route Info */}
+      {/* <ThemedCard>
+        {fromStation && toStation && (
           <View style={styles.routeInfo}>
             <View
               style={[
@@ -155,8 +157,8 @@ export default function RouteCard({ stations, style }: RouteCardProps) {
               </ThemedText>
             </View>
           </View>
-        )} */}
-      </ThemedCard>
+        )}
+      </ThemedCard> */}
 
       {/* Modals */}
       <StationPickerModal
@@ -187,15 +189,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
   },
-  cardTitle: {
-    fontSize: 22,
-    marginBottom: 20,
-  },
   routeContainer: {
     flex: 1,
   },
   timelineContainer: {
     alignItems: 'center',
+    top: 12,
     justifyContent: 'center',
     marginRight: 16,
     alignSelf: 'center',
@@ -212,50 +211,31 @@ const styles = StyleSheet.create({
     borderRadius: 7,
   },
   labelContainer: {
-    flexDirection: 'row',
     position: 'absolute',
-    insetBlockStart: -5,
-    alignItems: 'center',
-    gap: 8,
-  },
-  dot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
+    top: 3,
   },
   stationButton: {
     flexDirection: 'row',
-    alignContent: 'center',
+    alignItems: 'center',
     justifyContent: 'space-between',
-    paddingBlock: 16,
+    paddingTop: 25,
     borderRadius: 12,
   },
   swapContainer: {
     alignItems: 'flex-end',
-    margin: 0,
   },
   swapButton: {
     width: 40,
     height: 40,
     borderRadius: 10,
     justifyContent: 'center',
-    insetInlineEnd: '20%',
     alignItems: 'center',
+    marginRight: '20%',
     zIndex: 10,
   },
   divider: {
     width: '100%',
     borderWidth: 0.5,
-    insetBlock: '-50%',
-  },
-  routeInfo: {
-    flexDirection: 'row',
-    gap: 12,
-  },
-  routeInfoBox: {
-    flex: 1,
-    padding: 16,
-    borderRadius: 12,
-    alignItems: 'center',
+    marginTop: -20,
   },
 });
