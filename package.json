@@ -8,7 +8,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
+    "lint": "expo lint",
     "format": "prettier --write ."
   },
   "dependencies": {

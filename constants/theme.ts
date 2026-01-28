@@ -95,10 +95,11 @@ export const darkTheme = {
 };
 
 export const themeFonts = {
-  body: 'Inter_400Regular',
-  medium: 'Inter_500Medium',
-  semibold: 'Inter_600SemiBold',
-  bold: 'Inter_700Bold',
+  default: 'Inter_400Regular',
+  defaultSemiBold: 'Inter_600SemiBold',
+  title: 'Inter_700Bold',
+  subtitle: 'Inter_600SemiBold',
+  link: 'Inter_500Medium',
 };
 
 export const Fonts = Platform.select({
