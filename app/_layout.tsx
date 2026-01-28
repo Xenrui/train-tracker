@@ -44,7 +44,7 @@ export default function RootLayout() {
           options={{ presentation: 'modal', title: 'Modal' }}
         />
       </Stack>
-      <StatusBar style="auto" />
+      <StatusBar style="inverted" />
     </ThemeProvider>
   );
 }

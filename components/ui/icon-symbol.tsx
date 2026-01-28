@@ -23,6 +23,7 @@ const MAPPING = {
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
   'arrow.up.arrow.down': 'swap-vert',
+  'chevron.down': 'keyboard-arrow-down',
 } as IconMapping;
 
 /**

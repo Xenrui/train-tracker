@@ -36,17 +36,31 @@ export default function RouteCard({ stations, style }: RouteCardProps) {
   return (
     <>
       <ThemedCard style={[styles.card, style]}>
-        <View>
+        <View style={styles.timelineContainer}>
+          <View
+            style={[
+              styles.timelineDot,
+              { backgroundColor: theme['primary-dark'] },
+            ]}
+          />
+          <View
+            style={[
+              styles.timelineLine,
+              { backgroundColor: theme['primary-dark'] },
+            ]}
+          />
+          <View
+            style={[
+              styles.timelineDot,
+              { backgroundColor: theme['primary-dark'] },
+            ]}
+          />
+        </View>
+        <View style={styles.routeContainer}>
           {/* From Station */}
           <View>
             <View style={styles.labelContainer}>
-              <View
-                style={[
-                  styles.dot,
-                  { backgroundColor: theme['primary-default'] },
-                ]}
-              />
-              <ThemedText type="small" color="textPrimary">
+              <ThemedText type="small" color="textSecondary">
                 From
               </ThemedText>
             </View>
@@ -55,8 +69,13 @@ export default function RouteCard({ stations, style }: RouteCardProps) {
               onPress={() => setShowFromModal(true)}
             >
               <ThemedText type="subtitle" color="textSecondary">
-                {fromStation ? fromStation.name : 'Select starting station'}
+                {fromStation ? fromStation.name : 'Select station'}
               </ThemedText>
+              <IconSymbol
+                name="chevron.down"
+                color={theme['neutral-default']}
+                size={30}
+              />
             </TouchableOpacity>
           </View>
 
@@ -75,13 +94,17 @@ export default function RouteCard({ stations, style }: RouteCardProps) {
                 size={30}
               />
             </TouchableHighlight>
-            <View style={styles.divider} />
+            <View
+              style={[
+                styles.divider,
+                { borderColor: theme['neutral-default'] },
+              ]}
+            />
           </View>
 
           {/* To Station */}
           <View>
             <View style={styles.labelContainer}>
-              <View style={[styles.dot, {}]} />
               <ThemedText type="small" color="textSecondary">
                 To
               </ThemedText>
@@ -91,8 +114,13 @@ export default function RouteCard({ stations, style }: RouteCardProps) {
               onPress={() => setShowToModal(true)}
             >
               <ThemedText type="subtitle" color="textSecondary">
-                {toStation ? toStation.name : 'Select destination station'}
+                {toStation ? toStation.name : 'Select station'}
               </ThemedText>
+              <IconSymbol
+                name="chevron.down"
+                color={theme['neutral-default']}
+                size={30}
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -156,10 +184,32 @@ const styles = StyleSheet.create({
   card: {
     padding: 20,
     borderRadius: 16,
+    flexDirection: 'row',
+    flex: 1,
   },
   cardTitle: {
     fontSize: 22,
     marginBottom: 20,
+  },
+  routeContainer: {
+    flex: 1,
+  },
+  timelineContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 16,
+    alignSelf: 'center',
+    height: '65%',
+  },
+  timelineLine: {
+    width: 3,
+    flex: 1,
+    marginVertical: 4,
+  },
+  timelineDot: {
+    width: 14,
+    height: 14,
+    borderRadius: 7,
   },
   labelContainer: {
     flexDirection: 'row',
@@ -174,7 +224,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   stationButton: {
-    padding: 16,
+    flexDirection: 'row',
+    alignContent: 'center',
+    justifyContent: 'space-between',
+    paddingBlock: 16,
     borderRadius: 12,
   },
   swapContainer: {
@@ -192,7 +245,6 @@ const styles = StyleSheet.create({
   },
   divider: {
     width: '100%',
-    borderTopColor: '#000',
     borderWidth: 0.5,
     insetBlock: '-50%',
   },
