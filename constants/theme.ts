@@ -89,6 +89,7 @@ export const darkTheme = {
 };
 
 export const themeFonts = {
+  small: 'Inter_300Light',
   default: 'Inter_400Regular',
   defaultSemiBold: 'Inter_600SemiBold',
   title: 'Inter_700Bold',

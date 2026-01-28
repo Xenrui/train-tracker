@@ -9,12 +9,14 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import {
+  Inter_300Light,
   Inter_400Regular,
   Inter_500Medium,
   Inter_600SemiBold,
   Inter_700Bold,
   useFonts,
 } from '@expo-google-fonts/inter';
+import { View } from 'react-native';
 export const unstable_settings = {
   anchor: '(tabs)',
 };
@@ -22,6 +24,7 @@ export const unstable_settings = {
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [fontsLoaded] = useFonts({
+    Inter_300Light,
     Inter_400Regular,
     Inter_500Medium,
     Inter_600SemiBold,
@@ -29,9 +32,9 @@ export default function RootLayout() {
   });
 
   if (!fontsLoaded) {
-    return <div>Loading fonts</div>;
+    return <View>Loading fonts</View>;
   }
-  
+
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
