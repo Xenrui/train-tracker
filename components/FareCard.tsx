@@ -1,27 +1,53 @@
 import Card from '@/components/Card';
 import { colors } from '@/constants/colors';
-import { darkTheme, lightTheme } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import React, { useState } from 'react';
+import faresData from '@/data/trains/lrt2/fares.json';
+import { FaresData, FareType, Station } from '@/types/types';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 type FareCardProps = {
-  price: number;
-  style?: any;
+  fromStation: Station | null;
+  toStation: Station | null;
+  price?: number;
 };
 
-type FareType = 'beep' | 'single';
-
-const FareCard = ({ price, style }: FareCardProps) => {
+const FareCard = ({ fromStation, toStation, price }: FareCardProps) => {
+  const [fare, setFare] = useState<number | null>(null);
   const [fareType, setFareType] = useState<FareType>('beep');
   const [isDiscounted, setIsDiscounted] = useState(false);
-  const colorScheme = useColorScheme();
-  const theme = colorScheme === 'dark' ? darkTheme : lightTheme;
 
-  // Calculate fare (50% discount for discounted fare)
-  const regularFare = price;
-  const discountedFare = price * 0.5;
-  const displayFare = isDiscounted ? discountedFare : regularFare;
+  useEffect(() => {
+    const getFare = (): number | null => {
+      if (fromStation === null || toStation === null) {
+        return null;
+      }
+
+      const from = fromStation.id;
+      const to = toStation.id;
+
+      const fares = (faresData as FaresData).fares;
+
+      const forwardFare = fares?.[from]?.[to]?.[fareType];
+      if (forwardFare !== undefined) {
+        if (isDiscounted) {
+          return forwardFare / 2;
+        }
+        return forwardFare;
+      }
+
+      // Check reverse direction
+      const reverseFare = fares?.[to]?.[from]?.[fareType];
+      if (reverseFare !== undefined) {
+        if (isDiscounted) {
+          return reverseFare / 2;
+        }
+        return reverseFare;
+      }
+
+      return null;
+    };
+    setFare(getFare());
+  }, [fromStation, toStation, fareType, isDiscounted]);
 
   return (
     <Card className="">
@@ -53,16 +79,16 @@ const FareCard = ({ price, style }: FareCardProps) => {
         <TouchableOpacity
           className="flex-1 rounded-xl p-3 items-center justify-center"
           style={[
-            fareType === 'single' && {
+            fareType === 'sjt' && {
               backgroundColor: colors.primary[500],
             },
           ]}
-          onPress={() => setFareType('single')}
+          onPress={() => setFareType('sjt')}
           activeOpacity={0.7}
         >
           <Text
             className="text-gray-600 font-interMedium "
-            style={[fareType === 'single' && { color: '#fff' }]}
+            style={[fareType === 'sjt' && { color: '#fff' }]}
           >
             Single Journey
           </Text>
@@ -78,8 +104,8 @@ const FareCard = ({ price, style }: FareCardProps) => {
               styles.discountToggle,
               {
                 backgroundColor: isDiscounted
-                  ? theme['primary-default']
-                  : theme['neutral-light'],
+                  ? colors.primary[400]
+                  : colors.gray[200],
               },
             ]}
             onPress={() => setIsDiscounted(!isDiscounted)}
@@ -99,14 +125,12 @@ const FareCard = ({ price, style }: FareCardProps) => {
       {/* Price Display */}
       <View>
         <View className="flex-row gap-2 items-center">
-          <Text className="font-interBold text-5xl">
-            ₱{displayFare.toFixed(2)}
-          </Text>
+          <Text className="font-interBold text-5xl">₱{fare ?? 'N/A'}</Text>
           {isDiscounted && (
             <View
               style={[
                 styles.discountBadge,
-                { backgroundColor: theme['primary-default'] },
+                { backgroundColor: colors.primary[500] },
               ]}
             >
               <Text className="font-interBold text-sm text-white">50% OFF</Text>

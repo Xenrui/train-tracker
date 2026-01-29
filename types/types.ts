@@ -1,32 +1,41 @@
-import { darkTheme, lightTheme } from '@/constants/theme';
-import { TextProps, ViewProps } from 'react-native';
+export type StationId =
+  | 'recto'
+  | 'legarda'
+  | 'pureza'
+  | 'v_mapa'
+  | 'j_ruiz'
+  | 'gilmore'
+  | 'betty_go'
+  | 'cubao'
+  | 'anonas'
+  | 'katipunan'
+  | 'santolan'
+  | 'marikina'
+  | 'antipolo';
 
-export interface ThemeProps {
-  lightColor?: string;
-  darkColor?: string;
-}
+export type FareType = 'beep' | 'sjt';
 
-export interface ThemedTextProps extends TextProps, ThemeProps {
-  color?: keyof typeof lightTheme & keyof typeof darkTheme;
-  type?:
-    | 'small'
-    | 'default'
-    | 'title'
-    | 'defaultSemiBold'
-    | 'subtitle'
-    | 'link';
-}
-
-export interface ThemedViewProps extends ViewProps, ThemeProps {}
+export type Line = 'LRT2';
 
 export interface Station {
-  id: string;
+  id: StationId;
   name: string;
   order: number;
   is_terminal?: boolean;
 }
 
 export interface StationsData {
-  line: string;
+  line: Line;
   stations: Station[];
+}
+export interface FareInfo {
+  beep: number;
+  sjt: number;
+}
+export interface FaresData {
+  fares: {
+    [key in StationId]?: {
+      [key in StationId]?: FareInfo;
+    };
+  };
 }

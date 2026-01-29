@@ -10,12 +10,19 @@ import StationPickerModal from './StationPickerModal';
 
 interface RouteCardProps {
   stations: Station[];
-  style?: any;
+  fromStation: Station | null;
+  toStation: Station | null;
+  onFromStationChange: (station: Station) => void;
+  onToStationChange: (station: Station) => void;
 }
 
-export default function RouteCard({ stations, style }: RouteCardProps) {
-  const [fromStation, setFromStation] = useState<Station | null>(null);
-  const [toStation, setToStation] = useState<Station | null>(null);
+export default function RouteCard({
+  stations,
+  fromStation,
+  toStation,
+  onFromStationChange,
+  onToStationChange,
+}: RouteCardProps) {
   const [showFromModal, setShowFromModal] = useState(false);
   const [showToModal, setShowToModal] = useState(false);
 
@@ -23,9 +30,13 @@ export default function RouteCard({ stations, style }: RouteCardProps) {
   const theme = colorScheme === 'dark' ? darkTheme : lightTheme;
 
   const handleSwapStations = () => {
+    if (toStation === null || fromStation === null) {
+      return;
+    }
+
     const temp = fromStation;
-    setFromStation(toStation);
-    setToStation(temp);
+    onFromStationChange(toStation);
+    onToStationChange(temp);
   };
 
   return (
@@ -103,7 +114,7 @@ export default function RouteCard({ stations, style }: RouteCardProps) {
         visible={showFromModal}
         stations={stations}
         onClose={() => setShowFromModal(false)}
-        onSelectStation={setFromStation}
+        onSelectStation={onFromStationChange}
         title="Select Starting Station"
         selectedStationId={fromStation?.id}
       />
@@ -112,7 +123,7 @@ export default function RouteCard({ stations, style }: RouteCardProps) {
         visible={showToModal}
         stations={stations}
         onClose={() => setShowToModal(false)}
-        onSelectStation={setToStation}
+        onSelectStation={onToStationChange}
         title="Select Destination Station"
         selectedStationId={toStation?.id}
       />
