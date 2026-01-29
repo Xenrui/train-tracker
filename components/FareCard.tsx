@@ -1,9 +1,9 @@
-import ThemedCard from '@/components/ThemedCard';
-import { ThemedText } from '@/components/ThemedText';
+import Card from '@/components/Card';
+import { colors } from '@/constants/colors';
 import { darkTheme, lightTheme } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import React, { useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 type FareCardProps = {
   price: number;
@@ -18,78 +18,61 @@ const FareCard = ({ price, style }: FareCardProps) => {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? darkTheme : lightTheme;
 
-  // Calculate fare (20% discount for discounted fare)
+  // Calculate fare (50% discount for discounted fare)
   const regularFare = price;
   const discountedFare = price * 0.5;
   const displayFare = isDiscounted ? discountedFare : regularFare;
 
   return (
-    <ThemedCard style={[styles.card, style]}>
+    <Card className="">
       {/* Header */}
-      <View style={styles.header}>
-        <ThemedText type="subtitle" color="textSecondary">
-          Your Fare
-        </ThemedText>
+      <View className="mb-2">
+        <Text className="font-interSemiBold text-2xl">Your Fare</Text>
       </View>
 
       {/* Fare Type Toggle */}
-      <View
-        style={[
-          styles.toggleContainer,
-          { backgroundColor: theme['neutral-light'] },
-        ]}
-      >
+      <View className="flex-row bg-gray-200 rounded-xl">
         <TouchableOpacity
+          className="flex-1 rounded-xl p-3 items-center justify-center px-25"
           style={[
-            styles.toggleButton,
             fareType === 'beep' && {
-              backgroundColor: theme['primary-default'],
+              backgroundColor: colors.primary[500],
             },
           ]}
           onPress={() => setFareType('beep')}
           activeOpacity={0.7}
         >
-          <ThemedText
-            type="defaultSemiBold"
-            style={[
-              styles.toggleText,
-              { color: theme['neutral-default'] },
-              fareType === 'beep' && { color: theme['textNeutral'] },
-            ]}
+          <Text
+            className="text-gray-600 font-interMedium"
+            style={[fareType === 'beep' && { color: '#fff' }]}
           >
             Beep Card
-          </ThemedText>
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
+          className="flex-1 rounded-xl p-3 items-center justify-center"
           style={[
-            styles.toggleButton,
             fareType === 'single' && {
-              backgroundColor: theme['primary-default'],
+              backgroundColor: colors.primary[500],
             },
           ]}
           onPress={() => setFareType('single')}
           activeOpacity={0.7}
         >
-          <ThemedText
-            type="defaultSemiBold"
-            style={[
-              styles.toggleText,
-              { color: theme['neutral-default'] },
-              fareType === 'single' && { color: theme['textNeutral'] },
-            ]}
+          <Text
+            className="text-gray-600 font-interMedium "
+            style={[fareType === 'single' && { color: '#fff' }]}
           >
             Single Journey
-          </ThemedText>
+          </Text>
         </TouchableOpacity>
       </View>
 
       {/* Discount Toggle */}
-      <View style={styles.discountSection}>
-        <View style={styles.discountToggleContainer}>
-          <ThemedText type="small" color="textPrimary">
-            PWD/Senior/Student
-          </ThemedText>
+      <View className="my-5">
+        <View className="flex-row justify-between items-center">
+          <Text className="font-inter text-sm">PWD/Senior/Student</Text>
           <TouchableOpacity
             style={[
               styles.discountToggle,
@@ -105,7 +88,7 @@ const FareCard = ({ price, style }: FareCardProps) => {
             <View
               style={[
                 styles.discountToggleCircle,
-                { backgroundColor: theme['textNeutral'] },
+                { backgroundColor: '#fff' },
                 isDiscounted && styles.discountToggleCircleActive,
               ]}
             />
@@ -114,11 +97,11 @@ const FareCard = ({ price, style }: FareCardProps) => {
       </View>
 
       {/* Price Display */}
-      <View style={styles.priceSection}>
-        <View style={styles.priceRow}>
-          <ThemedText style={styles.priceAmount}>
+      <View>
+        <View className="flex-row gap-2 items-center">
+          <Text className="font-interBold text-5xl">
             ₱{displayFare.toFixed(2)}
-          </ThemedText>
+          </Text>
           {isDiscounted && (
             <View
               style={[
@@ -126,23 +109,34 @@ const FareCard = ({ price, style }: FareCardProps) => {
                 { backgroundColor: theme['primary-default'] },
               ]}
             >
-              <ThemedText type="small" style={styles.discountText}>
-                50% OFF
-              </ThemedText>
+              <Text className="font-interBold text-sm text-white">50% OFF</Text>
             </View>
           )}
         </View>
-        <ThemedText type="small" color="textSecondary" style={styles.fareLabel}>
-          {fareType === 'beep' ? 'Beep Card Fare' : 'Single Journey Ticket'}
-        </ThemedText>
       </View>
-    </ThemedCard>
+    </Card>
   );
 };
 
 export default FareCard;
 
 const styles = StyleSheet.create({
+  discountToggle: {
+    width: 40,
+    height: 24,
+    borderRadius: 14,
+    padding: 2,
+    justifyContent: 'center',
+  },
+  discountToggleCircle: {
+    width: 20,
+    height: 20,
+    borderRadius: 12,
+  },
+  discountToggleCircleActive: {
+    alignSelf: 'flex-end',
+  },
+
   card: {
     padding: 24,
   },
@@ -162,9 +156,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  toggleText: {
-    fontSize: 14,
-  },
   discountSection: {
     marginTop: 20,
     marginBottom: 8,
@@ -174,21 +165,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  discountToggle: {
-    width: 40,
-    height: 24,
-    borderRadius: 14,
-    padding: 2,
-    justifyContent: 'center',
-  },
-  discountToggleCircle: {
-    width: 20,
-    height: 20,
-    borderRadius: 12,
-  },
-  discountToggleCircleActive: {
-    alignSelf: 'flex-end',
-  },
+
   priceSection: {
     marginTop: 24,
     alignItems: 'center',

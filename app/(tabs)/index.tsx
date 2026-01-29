@@ -1,18 +1,17 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import FareCard from '@/components/FareCard';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import RouteCard from '@/components/RouteCard';
-import { ThemedView } from '@/components/ThemedView';
 import stationsData from '@/data/trains/lrt2/stations.json';
 import MapView from 'react-native-maps';
 
 export default function HomeScreen() {
   return (
-    <ParallaxScrollView headerBackgroundColor={'primary-default'}>
-      <ThemedView style={styles.mapContainer}>
+    <ParallaxScrollView>
+      <View style={styles.mapContainer}>
         <MapView
-          style={StyleSheet.absoluteFill}
+          style={StyleSheet.absoluteFillObject}
           initialRegion={{
             latitude: 14.5995,
             longitude: 120.9842,
@@ -20,7 +19,7 @@ export default function HomeScreen() {
             longitudeDelta: 0.05,
           }}
         />
-      </ThemedView>
+      </View>
       <RouteCard stations={stationsData.stations} />
       <FareCard price={14} />
     </ParallaxScrollView>
@@ -28,27 +27,10 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
   mapContainer: {
-    backgroundColor: '#ddd',
     height: 250,
     width: 'auto',
     borderRadius: 10,
     overflow: 'hidden',
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
   },
 });

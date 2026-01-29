@@ -1,5 +1,4 @@
-import type { PropsWithChildren, ReactElement } from 'react';
-import { StyleSheet } from 'react-native';
+import { ScrollViewProps, Text, View } from 'react-native';
 import Animated, {
   interpolate,
   useAnimatedRef,
@@ -7,25 +6,11 @@ import Animated, {
   useScrollOffset,
 } from 'react-native-reanimated';
 
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { lightTheme } from '@/constants/theme';
-import { useThemeColor } from '@/hooks/use-theme-color';
-
 const HEADER_HEIGHT = 150;
 
-type Props = PropsWithChildren<{
-  headerImage?: ReactElement;
-  headerBackgroundColor: keyof typeof lightTheme;
-}>;
+type Props = ScrollViewProps;
 
-export default function ParallaxScrollView({
-  children,
-  headerImage,
-  headerBackgroundColor,
-}: Props) {
-  const primary = useThemeColor({}, headerBackgroundColor);
-  const background = useThemeColor({}, 'background');
+export default function ParallaxScrollView({ children }: Props) {
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollOffset(scrollRef);
   const headerAnimatedStyle = useAnimatedStyle(() => {
@@ -52,55 +37,23 @@ export default function ParallaxScrollView({
   return (
     <Animated.ScrollView
       ref={scrollRef}
-      style={{ backgroundColor: primary, flex: 1 }}
+      className="bg-primary-500"
       contentContainerStyle={{ flexGrow: 1 }}
       scrollEventThrottle={16}
     >
-      <Animated.View
-        style={[
-          styles.header,
-          { backgroundColor: primary },
-          headerAnimatedStyle,
-        ]}
-      >
-        <ThemedView
-          style={[styles.headerContent, { backgroundColor: primary }]}
-        >
-          <ThemedText type="title" color="textNeutral">
+      <Animated.View style={[{ height: HEADER_HEIGHT }, headerAnimatedStyle]}>
+        <View className="p-5 justify-end h-full flex flex-col">
+          <Text className="text-white text-5xl font-interBold align-bottom leading-normal">
             Lakbay
-          </ThemedText>
-          <ThemedText type="small" color="textNeutral">
+          </Text>
+          <Text className="text-white font-inter">
             A Commuter&apos;s Guide for the Filipinos
-          </ThemedText>
-        </ThemedView>
+          </Text>
+        </View>
       </Animated.View>
-      <ThemedView style={[styles.content, { backgroundColor: background }]}>
+      <View className="flex-1 p-3 rounded-t-3xl gap-5 bg-gray-50 ">
         {children}
-      </ThemedView>
+      </View>
     </Animated.ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  header: {
-    height: HEADER_HEIGHT,
-    justifyContent: 'center',
-    overflow: 'hidden',
-  },
-  headerContent: {
-    flexDirection: 'column',
-    height: HEADER_HEIGHT,
-    justifyContent: 'flex-end',
-    paddingBlockEnd: 20,
-    overflow: 'hidden',
-    paddingHorizontal: 20,
-  },
-  content: {
-    flex: 1,
-    padding: 10,
-    gap: 16,
-    overflow: 'hidden',
-    borderTopStartRadius: 20,
-    borderTopEndRadius: 20,
-  },
-});

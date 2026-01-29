@@ -1,17 +1,12 @@
-import ThemedCard from '@/components/ThemedCard';
+import Card from '@/components/Card';
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import { colors } from '@/constants/colors';
 import { darkTheme, lightTheme } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Station } from '@/types/types';
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  TouchableHighlight,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import StationPickerModal from './StationPickerModal';
-import { ThemedText } from './ThemedText';
 
 interface RouteCardProps {
   stations: Station[];
@@ -35,57 +30,41 @@ export default function RouteCard({ stations, style }: RouteCardProps) {
 
   return (
     <>
-      <ThemedCard style={[styles.card, style]}>
-        <View style={styles.timelineContainer}>
-          <View
-            style={[
-              styles.timelineDot,
-              { backgroundColor: theme['primary-dark'] },
-            ]}
-          />
-          <View
-            style={[
-              styles.timelineLine,
-              { backgroundColor: theme['primary-dark'] },
-            ]}
-          />
-          <View
-            style={[
-              styles.timelineDot,
-              { backgroundColor: theme['primary-dark'] },
-            ]}
-          />
+      <Card className="flex-row">
+        {/* Timeline */}
+        <View className="items-center justify-center h-24 mr-2 top-9">
+          <View className="w-4 h-4 rounded-full bg-primary-700" />
+          <View className="w-0.5 flex-1 my-1 bg-primary-700" />
+          <View className="w-4 h-4 rounded-full bg-primary-700" />
         </View>
-        <View style={styles.routeContainer}>
+        <View className="flex-1">
           {/* From Station */}
           <View>
-            <View style={styles.labelContainer}>
-              <ThemedText type="small" color="textSecondary">
-                From
-              </ThemedText>
+            <View className="absolute top-2">
+              <Text className="font-inter text-sm">From</Text>
             </View>
             <TouchableOpacity
-              style={[styles.stationButton]}
+              className="flex-row items-center justify-between pt-6 rounded-xl"
               onPress={() => setShowFromModal(true)}
             >
-              <ThemedText type="subtitle" color="textSecondary">
+              <Text className="font-interSemiBold text-2xl">
                 {fromStation ? fromStation.name : 'Select station'}
-              </ThemedText>
+              </Text>
               <IconSymbol
                 name="chevron.down"
-                color={theme['neutral-default']}
+                color={colors.gray[500]}
                 size={30}
               />
             </TouchableOpacity>
           </View>
 
           {/* Swap Button */}
-          <View style={styles.swapContainer}>
+          <View className="items-end">
             <TouchableHighlight
-              style={[styles.swapButton, { backgroundColor: theme['surface'] }]}
+              className="w-10 h-10 rounded-md justify-center items-center mr-[20%] z-10 bg-white"
               onPress={handleSwapStations}
               activeOpacity={0.6}
-              underlayColor={theme['neutral-light']}
+              underlayColor={colors.gray[200]}
               disabled={!fromStation && !toStation}
             >
               <IconSymbol
@@ -94,71 +73,30 @@ export default function RouteCard({ stations, style }: RouteCardProps) {
                 size={30}
               />
             </TouchableHighlight>
-            <View
-              style={[
-                styles.divider,
-                { borderColor: theme['neutral-default'] },
-              ]}
-            />
+            <View className="w-full border-[0.5px] -mt-5 border-gray-100" />
           </View>
 
           {/* To Station */}
           <View>
-            <View style={styles.labelContainer}>
-              <ThemedText type="small" color="textSecondary">
-                To
-              </ThemedText>
+            <View className="absolute top-2">
+              <Text className="font-inter text-sm">To</Text>
             </View>
             <TouchableOpacity
-              style={[styles.stationButton]}
+              className="flex-row items-center justify-between pt-6 rounded-xl"
               onPress={() => setShowToModal(true)}
             >
-              <ThemedText type="subtitle" color="textSecondary">
+              <Text className="font-interSemiBold text-2xl">
                 {toStation ? toStation.name : 'Select station'}
-              </ThemedText>
+              </Text>
               <IconSymbol
                 name="chevron.down"
-                color={theme['neutral-default']}
+                color={colors.gray[500]}
                 size={30}
               />
             </TouchableOpacity>
           </View>
         </View>
-      </ThemedCard>
-
-      {/* Route Info */}
-      {/* <ThemedCard>
-        {fromStation && toStation && (
-          <View style={styles.routeInfo}>
-            <View
-              style={[
-                styles.routeInfoBox,
-                { backgroundColor: theme['surface-secondary'] },
-              ]}
-            >
-              <ThemedText type="small" color="text-muted">
-                Stations
-              </ThemedText>
-              <ThemedText type="defaultSemiBold">
-                {Math.abs(toStation.order - fromStation.order)}
-              </ThemedText>
-            </View>
-            <View
-              style={[
-                styles.routeInfoBox,
-                { backgroundColor: theme['surface-secondary'] },
-              ]}
-            >
-              <ThemedText type="small" color="text-muted">
-                Direction
-              </ThemedText>
-              <ThemedText type="defaultSemiBold">
-                {toStation.order > fromStation.order ? '→' : '←'}
-              </ThemedText>
-            </View>
-          </View>
-        )}
-      </ThemedCard> */}
+      </Card>
 
       {/* Modals */}
       <StationPickerModal
@@ -181,59 +119,3 @@ export default function RouteCard({ stations, style }: RouteCardProps) {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  card: {
-    flexDirection: 'row',
-    flex: 1,
-  },
-  routeContainer: {
-    flex: 1,
-  },
-  timelineContainer: {
-    alignItems: 'center',
-    top: 12,
-    justifyContent: 'center',
-    marginRight: 16,
-    alignSelf: 'center',
-    height: '65%',
-  },
-  timelineLine: {
-    width: 3,
-    flex: 1,
-    marginVertical: 4,
-  },
-  timelineDot: {
-    width: 14,
-    height: 14,
-    borderRadius: 7,
-  },
-  labelContainer: {
-    position: 'absolute',
-    top: 3,
-  },
-  stationButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingTop: 25,
-    borderRadius: 12,
-  },
-  swapContainer: {
-    alignItems: 'flex-end',
-  },
-  swapButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: '20%',
-    zIndex: 10,
-  },
-  divider: {
-    width: '100%',
-    borderWidth: 0.5,
-    marginTop: -20,
-  },
-});
