@@ -22,6 +22,8 @@ export interface Station {
   name: string;
   order: number;
   is_terminal?: boolean;
+  latitude: number;
+  longitude: number;
 }
 
 export interface StationsData {

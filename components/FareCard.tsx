@@ -72,34 +72,36 @@ const FareCard = ({ price }: FareCardProps) => {
       </View>
 
       {/* Discount Toggle */}
-      <View className="my-5">
-        <View className="flex-row justify-between items-center">
-          <Text className="font-inter text-sm">PWD/Senior/Student</Text>
-          <TouchableOpacity
-            style={[
-              styles.discountToggle,
-              {
-                backgroundColor: isDiscounted
-                  ? colors.primary[400]
-                  : colors.gray[200],
-              },
-            ]}
-            onPress={() => setIsDiscounted(!isDiscounted)}
-            activeOpacity={0.7}
-          >
-            <View
+      {fareType === 'beep' && (
+        <View className="mt-5">
+          <View className="flex-row justify-between items-center">
+            <Text className="font-inter text-sm">PWD/Senior/Student</Text>
+            <TouchableOpacity
               style={[
-                styles.discountToggleCircle,
-                { backgroundColor: '#fff' },
-                isDiscounted && styles.discountToggleCircleActive,
+                styles.discountToggle,
+                {
+                  backgroundColor: isDiscounted
+                    ? colors.primary[400]
+                    : colors.gray[200],
+                },
               ]}
-            />
-          </TouchableOpacity>
+              onPress={() => setIsDiscounted(!isDiscounted)}
+              activeOpacity={0.7}
+            >
+              <View
+                style={[
+                  styles.discountToggleCircle,
+                  { backgroundColor: '#fff' },
+                  isDiscounted && styles.discountToggleCircleActive,
+                ]}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      )}
 
       {/* Price Display */}
-      <View>
+      <View className="mt-5">
         <View className="flex-row gap-2 items-center">
           <Text className="font-interBold text-5xl">₱{fare ?? 'N/A'}</Text>
           {isDiscounted && (

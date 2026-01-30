@@ -1,4 +1,5 @@
 import { colors } from '@/constants/colors';
+import stationData from '@/data/trains/lrt2/stations.json';
 import { Station, StationsData } from '@/types/types';
 import React from 'react';
 import {
@@ -9,7 +10,6 @@ import {
   View,
 } from 'react-native';
 import Modal from 'react-native-modal';
-import stationData from '@/data/trains/lrt2/stations.json';
 
 interface StationPickerModalProps {
   visible: boolean;
@@ -26,7 +26,6 @@ export default function StationPickerModal({
   title,
   selectedStationId,
 }: StationPickerModalProps) {
-
   const stations = (stationData as StationsData).stations;
 
   return (
