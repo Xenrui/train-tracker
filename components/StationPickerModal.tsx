@@ -1,5 +1,5 @@
 import { colors } from '@/constants/colors';
-import { Station } from '@/types/types';
+import { Station, StationsData } from '@/types/types';
 import React from 'react';
 import {
   FlatList,
@@ -9,9 +9,10 @@ import {
   View,
 } from 'react-native';
 import Modal from 'react-native-modal';
+import stationData from '@/data/trains/lrt2/stations.json';
+
 interface StationPickerModalProps {
   visible: boolean;
-  stations: Station[];
   onClose: () => void;
   onSelectStation: (station: Station) => void;
   title: string;
@@ -20,12 +21,14 @@ interface StationPickerModalProps {
 
 export default function StationPickerModal({
   visible,
-  stations,
   onClose,
   onSelectStation,
   title,
   selectedStationId,
 }: StationPickerModalProps) {
+
+  const stations = (stationData as StationsData).stations;
+
   return (
     <Modal
       isVisible={visible}

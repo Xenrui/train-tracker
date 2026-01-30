@@ -5,14 +5,9 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import RouteCard from '@/components/RouteCard';
 import { colors } from '@/constants/colors';
 import stationsData from '@/data/trains/lrt2/stations.json';
-import { Station } from '@/types/types';
-import { useState } from 'react';
 import MapView from 'react-native-maps';
 
 export default function HomeScreen() {
-  const [fromStation, setFromStation] = useState<Station | null>(null);
-  const [toStation, setToStation] = useState<Station | null>(null);
-
   return (
     <ParallaxScrollView>
       <View style={styles.mapContainer}>
@@ -37,14 +32,8 @@ export default function HomeScreen() {
           }}
         />
       </View>
-      <RouteCard
-        stations={stationsData.stations as Station[]}
-        fromStation={fromStation}
-        toStation={toStation}
-        onFromStationChange={setFromStation}
-        onToStationChange={setToStation}
-      />
-      <FareCard fromStation={fromStation} toStation={toStation} />
+      <RouteCard />
+      <FareCard />
     </ParallaxScrollView>
   );
 }

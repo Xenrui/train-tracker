@@ -1,43 +1,17 @@
 import Card from '@/components/Card';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { colors } from '@/constants/colors';
-import { darkTheme, lightTheme } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import { Station } from '@/types/types';
+import { useStation } from '@/context/StationContext';
 import React, { useState } from 'react';
 import { Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import StationPickerModal from './StationPickerModal';
 
-interface RouteCardProps {
-  stations: Station[];
-  fromStation: Station | null;
-  toStation: Station | null;
-  onFromStationChange: (station: Station) => void;
-  onToStationChange: (station: Station) => void;
-}
+export default function RouteCard() {
+  const { fromStation, toStation, setFromStation, setToStation, swapStations } =
+    useStation();
 
-export default function RouteCard({
-  stations,
-  fromStation,
-  toStation,
-  onFromStationChange,
-  onToStationChange,
-}: RouteCardProps) {
   const [showFromModal, setShowFromModal] = useState(false);
   const [showToModal, setShowToModal] = useState(false);
-
-  const colorScheme = useColorScheme();
-  const theme = colorScheme === 'dark' ? darkTheme : lightTheme;
-
-  const handleSwapStations = () => {
-    if (toStation === null || fromStation === null) {
-      return;
-    }
-
-    const temp = fromStation;
-    onFromStationChange(toStation);
-    onToStationChange(temp);
-  };
 
   return (
     <>
@@ -73,14 +47,14 @@ export default function RouteCard({
           <View className="items-end">
             <TouchableHighlight
               className="w-10 h-10 rounded-md justify-center items-center mr-[20%] z-10 bg-white"
-              onPress={handleSwapStations}
+              onPress={swapStations}
               activeOpacity={0.6}
               underlayColor={colors.gray[200]}
               disabled={!fromStation && !toStation}
             >
               <IconSymbol
                 name="arrow.up.arrow.down"
-                color={theme['primary-dark']}
+                color={colors.primary[700]}
                 size={30}
               />
             </TouchableHighlight>
@@ -112,18 +86,16 @@ export default function RouteCard({
       {/* Modals */}
       <StationPickerModal
         visible={showFromModal}
-        stations={stations}
         onClose={() => setShowFromModal(false)}
-        onSelectStation={onFromStationChange}
+        onSelectStation={setFromStation}
         title="Select Starting Station"
         selectedStationId={fromStation?.id}
       />
 
       <StationPickerModal
         visible={showToModal}
-        stations={stations}
         onClose={() => setShowToModal(false)}
-        onSelectStation={onToStationChange}
+        onSelectStation={setToStation}
         title="Select Destination Station"
         selectedStationId={toStation?.id}
       />

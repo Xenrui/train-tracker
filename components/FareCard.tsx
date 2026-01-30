@@ -1,52 +1,28 @@
 import Card from '@/components/Card';
 import { colors } from '@/constants/colors';
-import faresData from '@/data/trains/lrt2/fares.json';
-import { FaresData, FareType, Station } from '@/types/types';
+import { useStation } from '@/context/StationContext';
+import { calculateFare } from '@/utils/fareCalculator';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 type FareCardProps = {
-  fromStation: Station | null;
-  toStation: Station | null;
   price?: number;
 };
 
-const FareCard = ({ fromStation, toStation, price }: FareCardProps) => {
+const FareCard = ({ price }: FareCardProps) => {
+  const {
+    fromStation,
+    toStation,
+    fareType,
+    isDiscounted,
+    setFareType,
+    setIsDiscounted,
+  } = useStation();
+
   const [fare, setFare] = useState<number | null>(null);
-  const [fareType, setFareType] = useState<FareType>('beep');
-  const [isDiscounted, setIsDiscounted] = useState(false);
 
   useEffect(() => {
-    const getFare = (): number | null => {
-      if (fromStation === null || toStation === null) {
-        return null;
-      }
-
-      const from = fromStation.id;
-      const to = toStation.id;
-
-      const fares = (faresData as FaresData).fares;
-
-      const forwardFare = fares?.[from]?.[to]?.[fareType];
-      if (forwardFare !== undefined) {
-        if (isDiscounted) {
-          return forwardFare / 2;
-        }
-        return forwardFare;
-      }
-
-      // Check reverse direction
-      const reverseFare = fares?.[to]?.[from]?.[fareType];
-      if (reverseFare !== undefined) {
-        if (isDiscounted) {
-          return reverseFare / 2;
-        }
-        return reverseFare;
-      }
-
-      return null;
-    };
-    setFare(getFare());
+    setFare(calculateFare(fromStation, toStation, fareType, isDiscounted));
   }, [fromStation, toStation, fareType, isDiscounted]);
 
   return (
