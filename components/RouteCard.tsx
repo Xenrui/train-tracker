@@ -18,9 +18,9 @@ export default function RouteCard() {
       <Card className="flex-row">
         {/* Timeline */}
         <View className="items-center justify-center h-24 mr-2 top-9">
-          <View className="w-4 h-4 rounded-full bg-primary-700" />
+          <View className="w-4 h-4 rounded-full bg-success-500" />
           <View className="w-0.5 flex-1 my-1 bg-primary-700" />
-          <View className="w-4 h-4 rounded-full bg-primary-700" />
+          <View className="w-4 h-4 rounded-full bg-error-500" />
         </View>
         <View className="flex-1">
           {/* From Station */}

@@ -16,7 +16,13 @@ export default function HomeScreen() {
       <View style={styles.mapContainer}>
         {/* Change Train Track: soon */}
         <Pressable className="absolute w-full top-2 left-0 right-0 z-10 items-center">
-          <View className="rounded-xl bg-white" style={styles.trackLabel}>
+          <View
+            className="rounded-xl"
+            style={[
+              styles.trackLabel,
+              { backgroundColor: 'rgba(255, 255, 255, 0.9)' },
+            ]}
+          >
             <Text className="font-inter text-sm text-gray-100">
               Current Line
             </Text>
@@ -35,7 +41,7 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   mapContainer: {
-    height: 300,
+    height: 250,
     width: 'auto',
     borderRadius: 10,
     overflow: 'hidden',
