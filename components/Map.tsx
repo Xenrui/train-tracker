@@ -1,18 +1,15 @@
-import { IconSymbol } from '@/components/ui/IconSymbol';
+import StationCodeBadge from '@/components/ui/StationCodeBadge';
 import { colors } from '@/constants/colors';
-import { useStation } from '@/context/StationContext';
-import mapstyle from '@/data/map/mapstyle.json';
 import trackGeoJSON from '@/data/trains/lrt2/route.json';
 import stationsJSON from '@/data/trains/lrt2/stations.json';
-import { StyleSheet } from 'react-native';
-import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
+import Mapbox from '@rnmapbox/maps';
+import Constants from 'expo-constants';
+import { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 
-const LRT2_TRACK = (trackGeoJSON.geometry.coordinates as [number, number][])
-  .map((coord) => ({
-    latitude: coord[1],
-    longitude: coord[0],
-  }))
-  .reverse(); // Reverse to go from Recto → Antipolo
+const mapboxToken =
+  Constants.expoConfig?.extra?.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN;
+Mapbox.setAccessToken(mapboxToken);
 
 const getMapRegion = () => {
   const latitudes = stationsJSON.stations.map((s) => s.latitude);
@@ -26,63 +23,98 @@ const getMapRegion = () => {
   return {
     latitude: (minLat + maxLat) / 2,
     longitude: (minLng + maxLng) / 2,
-    latitudeDelta: (maxLat - minLat) * 1.1,
-    longitudeDelta: (maxLng - minLng) * 1.1,
   };
 };
 
-interface TrainMapProps {
-  height?: number;
-}
-
-export default function TrainMap({ height = 250 }: TrainMapProps) {
-  const { fromStation, toStation } = useStation();
-
-  const getMarkerColor = (stationId: string) => {
-    if (fromStation?.id === stationId) return colors.success[500];
-    if (toStation?.id === stationId) return colors.error[500];
-    return colors.primary[700];
+// Convert track to proper GeoJSON LineString
+const getTrackGeoJSON = () => {
+  return {
+    type: 'Feature' as const,
+    properties: {},
+    geometry: {
+      type: 'LineString' as const,
+      coordinates: trackGeoJSON.geometry.coordinates,
+    },
   };
+};
+
+export default function TrainMap() {
+  const [selectedStation, setSelectedStation] = useState<string | null>(null);
+  const center = getMapRegion();
 
   return (
-    <MapView
-      key="lrt2-map"
-      customMapStyle={mapstyle}
-      provider={PROVIDER_GOOGLE}
-      style={StyleSheet.absoluteFillObject}
-      region={getMapRegion()}
-      mapType="standard"
-    >
-      {/* Trackline */}
-      <Polyline
-        coordinates={LRT2_TRACK}
-        strokeColor={colors.primary[300]}
-        strokeWidth={5}
-        lineCap="round"
-        lineJoin="round"
+    <Mapbox.MapView style={{ flex: 1 }}>
+      <Mapbox.Camera
+        zoomLevel={12}
+        centerCoordinate={[center.longitude, center.latitude]}
       />
+
+      {/* Track Line */}
+      <Mapbox.ShapeSource id="route" shape={getTrackGeoJSON()}>
+        <Mapbox.LineLayer
+          id="routeLine"
+          style={{
+            lineColor: colors.primary[300],
+            lineWidth: 5,
+            lineCap: 'round',
+            lineJoin: 'round',
+          }}
+        />
+      </Mapbox.ShapeSource>
 
       {/* Station Markers */}
       {stationsJSON.stations.map((station) => {
+        const isSelected = selectedStation === station.code;
+
         return (
-          <Marker
-            key={station.id}
-            coordinate={{
-              latitude: station.latitude,
-              longitude: station.longitude,
-            }}
-            title={station.name}
-            anchor={{ x: 0.5, y: 0.5 }}
-            centerOffset={{ x: 0, y: 0 }}
+          <Mapbox.PointAnnotation
+            key={station.code}
+            id={station.code}
+            coordinate={[station.longitude, station.latitude]}
+            onSelected={() => setSelectedStation(station.code)}
+            onDeselected={() => setSelectedStation(null)}
           >
-            <IconSymbol
-              name="tram"
-              size={20}
-              color={getMarkerColor(station.id)}
-            />
-          </Marker>
+            <View style={styles.markerContainer}>
+              {/* Show badge above marker when selected */}
+              {isSelected && (
+                <View style={styles.badgeWrapper}>
+                  <StationCodeBadge
+                    trackLine="LRT-2"
+                    stationCode={station.code}
+                    stationName={station.name}
+                  />
+                </View>
+              )}
+
+              {/* Marker pin */}
+              <View
+                style={[
+                  styles.marker,
+                  {
+                    backgroundColor: colors.primary[700],
+                    width: isSelected ? 18 : 15,
+                    height: isSelected ? 18 : 15,
+                  },
+                ]}
+              />
+            </View>
+          </Mapbox.PointAnnotation>
         );
       })}
-    </MapView>
+    </Mapbox.MapView>
   );
 }
+
+const styles = StyleSheet.create({
+  markerContainer: {
+    alignItems: 'center',
+  },
+  badgeWrapper: {
+    marginBottom: 8,
+  },
+  marker: {
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: 'white',
+  },
+});
