@@ -1,8 +1,10 @@
+import { IconSymbol } from '@/components/ui/IconSymbol';
 import { colors } from '@/constants/colors';
 import { useStation } from '@/context/StationContext';
+import mapstyle from '@/data/map/mapstyle.json';
 import trackGeoJSON from '@/data/trains/lrt2/route.json';
 import stationsJSON from '@/data/trains/lrt2/stations.json';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
 
 const LRT2_TRACK = (trackGeoJSON.geometry.coordinates as [number, number][])
@@ -39,12 +41,13 @@ export default function TrainMap({ height = 250 }: TrainMapProps) {
   const getMarkerColor = (stationId: string) => {
     if (fromStation?.id === stationId) return colors.success[500];
     if (toStation?.id === stationId) return colors.error[500];
-    return colors.primary[500];
+    return colors.primary[700];
   };
 
   return (
     <MapView
       key="lrt2-map"
+      customMapStyle={mapstyle}
       provider={PROVIDER_GOOGLE}
       style={StyleSheet.absoluteFillObject}
       region={getMapRegion()}
@@ -53,7 +56,7 @@ export default function TrainMap({ height = 250 }: TrainMapProps) {
       {/* Trackline */}
       <Polyline
         coordinates={LRT2_TRACK}
-        strokeColor={colors.primary[500]}
+        strokeColor={colors.primary[300]}
         strokeWidth={5}
         lineCap="round"
         lineJoin="round"
@@ -61,9 +64,6 @@ export default function TrainMap({ height = 250 }: TrainMapProps) {
 
       {/* Station Markers */}
       {stationsJSON.stations.map((station) => {
-        const isSelected =
-          station.id === fromStation?.id || station.id === toStation?.id;
-
         return (
           <Marker
             key={station.id}
@@ -72,20 +72,13 @@ export default function TrainMap({ height = 250 }: TrainMapProps) {
               longitude: station.longitude,
             }}
             title={station.name}
-            description={station.is_terminal ? 'Terminal Station' : undefined}
             anchor={{ x: 0.5, y: 0.5 }}
             centerOffset={{ x: 0, y: 0 }}
           >
-            <View
-              style={[
-                styles.marker,
-                {
-                  backgroundColor: getMarkerColor(station.id),
-                  borderWidth: isSelected ? 3 : 2,
-                  width: 25,
-                  height: 25,
-                },
-              ]}
+            <IconSymbol
+              name="tram"
+              size={20}
+              color={getMarkerColor(station.id)}
             />
           </Marker>
         );
@@ -93,15 +86,3 @@ export default function TrainMap({ height = 250 }: TrainMapProps) {
     </MapView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    borderRadius: 12,
-    overflow: 'hidden',
-  },
-  marker: {
-    borderRadius: 50,
-    borderColor: 'white',
-  },
-});
