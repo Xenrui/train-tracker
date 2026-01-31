@@ -1,4 +1,4 @@
-import { darkTheme, lightTheme } from '@/constants/theme';
+import { darkTheme, lightTheme } from '@/components/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export function useThemeColor(

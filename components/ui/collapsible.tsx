@@ -1,5 +1,5 @@
+import { darkTheme, lightTheme } from '@/components/theme';
 import { IconSymbol } from '@/components/ui/IconSymbol';
-import { darkTheme, lightTheme } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { PropsWithChildren, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';

@@ -50,9 +50,9 @@ export default function StationPickerModal({
         {/* Station List */}
         <FlatList
           data={stations}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.code}
           renderItem={({ item }) => {
-            const isSelected = item.id === selectedStationId;
+            const isSelected = item.code === selectedStationId;
             return (
               <TouchableHighlight
                 underlayColor={colors.gray[400]}

@@ -89,7 +89,7 @@ export default function RouteCard() {
         onClose={() => setShowFromModal(false)}
         onSelectStation={setFromStation}
         title="Select Starting Station"
-        selectedStationId={fromStation?.id}
+        selectedStationId={fromStation?.code}
       />
 
       <StationPickerModal
@@ -97,7 +97,7 @@ export default function RouteCard() {
         onClose={() => setShowToModal(false)}
         onSelectStation={setToStation}
         title="Select Destination Station"
-        selectedStationId={toStation?.id}
+        selectedStationId={toStation?.code}
       />
     </>
   );

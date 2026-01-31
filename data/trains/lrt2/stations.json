@@ -2,7 +2,7 @@
   "line": "LRT-2",
   "stations": [
     {
-      "id": "recto",
+      "code": "PL01",
       "name": "Recto",
       "order": 1,
       "is_terminal": true,
@@ -10,84 +10,84 @@
       "longitude": 120.9833886
     },
     {
-      "id": "legarda",
+      "code": "PL02",
       "name": "Legarda",
       "order": 2,
       "latitude": 14.60086,
       "longitude": 120.992571
     },
     {
-      "id": "pureza",
+      "code": "PL03",
       "name": "Pureza",
       "order": 3,
       "latitude": 14.6016855,
       "longitude": 121.0050943
     },
     {
-      "id": "v_mapa",
+      "code": "PL04",
       "name": "V. Mapa",
       "order": 4,
       "latitude": 14.6040799,
       "longitude": 121.01712
     },
     {
-      "id": "j_ruiz",
+      "code": "PL05",
       "name": "J. Ruiz",
       "order": 5,
       "latitude": 14.6105637,
       "longitude": 121.0261007
     },
     {
-      "id": "gilmore",
+      "code": "PL06",
       "name": "Gilmore",
       "order": 6,
       "latitude": 14.6135262,
       "longitude": 121.034148
     },
     {
-      "id": "betty_go",
+      "code": "PL07",
       "name": "Betty Go-Belmonte",
       "order": 7,
       "latitude": 14.6185958,
       "longitude": 121.0427083
     },
     {
-      "id": "cubao",
+      "code": "PL08",
       "name": "Cubao",
       "order": 8,
       "latitude": 14.622788,
       "longitude": 121.0529061
     },
     {
-      "id": "anonas",
+      "code": "PL09",
       "name": "Anonas",
       "order": 9,
       "latitude": 14.627998,
       "longitude": 121.0647279
     },
     {
-      "id": "katipunan",
+      "code": "PL10",
       "name": "Katipunan",
       "order": 10,
       "latitude": 14.6310343,
       "longitude": 121.0729019
     },
     {
-      "id": "santolan",
+      "code": "PL11",
       "name": "Santolan",
       "order": 11,
       "latitude": 14.622085,
       "longitude": 121.085992
     },
     {
-      "id": "marikina",
+      "code": "PL12",
       "name": "Marikina-Pasig",
       "order": 12,
       "latitude": 14.620443,
       "longitude": 121.10064
     },
     {
-      "id": "antipolo",
+      "code": "PL13",
       "name": "Antipolo",
       "order": 13,
       "is_terminal": true,
