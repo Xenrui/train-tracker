@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
   calloutContainer: {
     flexDirection: 'column',
     alignItems: 'center',
-    paddingBottom: 16, // Space between callout and marker
+    paddingBottom: 16,
   },
   calloutArrow: {
     width: 0,

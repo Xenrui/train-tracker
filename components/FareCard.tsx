@@ -77,8 +77,8 @@ const FareCard = ({ price }: FareCardProps) => {
           <View className="flex-row justify-between items-center">
             <Text className="font-inter text-sm">PWD/Senior/Student</Text>
             <TouchableOpacity
+              className="w-10 h-6 rounded-2xl py-1 justify-center "
               style={[
-                styles.discountToggle,
                 {
                   backgroundColor: isDiscounted
                     ? colors.primary[400]
@@ -89,11 +89,8 @@ const FareCard = ({ price }: FareCardProps) => {
               activeOpacity={0.7}
             >
               <View
-                style={[
-                  styles.discountToggleCircle,
-                  { backgroundColor: '#fff' },
-                  isDiscounted && styles.discountToggleCircleActive,
-                ]}
+                className="w-5 h-5 rounded-xl bg-white"
+                style={[isDiscounted && styles.discountToggleCircleActive]}
               />
             </TouchableOpacity>
           </View>
@@ -103,13 +100,13 @@ const FareCard = ({ price }: FareCardProps) => {
       {/* Price Display */}
       <View className="mt-5">
         <View className="flex-row gap-2 items-center">
-          <Text className="font-interBold text-5xl">₱{fare ?? 'N/A'}</Text>
+          <Text className="font-interBold text-5xl">
+            ₱{fare?.toFixed(2) ?? 'N/A'}
+          </Text>
           {isDiscounted && fareType === 'beep' && (
             <View
-              style={[
-                styles.discountBadge,
-                { backgroundColor: colors.primary[500] },
-              ]}
+              className="px-3 py-2 rounded-lg"
+              style={[{ backgroundColor: colors.primary[500] }]}
             >
               <Text className="font-interBold text-sm text-white">50% OFF</Text>
             </View>
@@ -123,76 +120,7 @@ const FareCard = ({ price }: FareCardProps) => {
 export default FareCard;
 
 const styles = StyleSheet.create({
-  discountToggle: {
-    width: 40,
-    height: 24,
-    borderRadius: 14,
-    padding: 2,
-    justifyContent: 'center',
-  },
-  discountToggleCircle: {
-    width: 20,
-    height: 20,
-    borderRadius: 12,
-  },
   discountToggleCircleActive: {
     alignSelf: 'flex-end',
-  },
-
-  card: {
-    padding: 24,
-  },
-  header: {
-    marginBottom: 4,
-  },
-  toggleContainer: {
-    flexDirection: 'row',
-    borderRadius: 12,
-    padding: 2,
-  },
-  toggleButton: {
-    flex: 1,
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  discountSection: {
-    marginTop: 20,
-    marginBottom: 8,
-  },
-  discountToggleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-
-  priceSection: {
-    marginTop: 24,
-    alignItems: 'center',
-  },
-  priceRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  priceAmount: {
-    fontSize: 48,
-    fontWeight: 'bold',
-    letterSpacing: -1,
-  },
-  fareLabel: {
-    marginTop: 8,
-  },
-  discountBadge: {
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 8,
-  },
-  discountText: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: 'bold',
   },
 });
