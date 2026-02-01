@@ -104,7 +104,7 @@ const FareCard = ({ price }: FareCardProps) => {
       <View className="mt-5">
         <View className="flex-row gap-2 items-center">
           <Text className="font-interBold text-5xl">₱{fare ?? 'N/A'}</Text>
-          {isDiscounted && (
+          {isDiscounted && fareType === 'beep' && (
             <View
               style={[
                 styles.discountBadge,

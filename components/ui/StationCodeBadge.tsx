@@ -13,13 +13,13 @@ const StationCodeBadge = ({
 }: StationCodeProps) => {
   return (
     <View
-      className="flex-col gap-2 p-2 rounded-md bg-white"
+      className="gap-2 flex-row items-center p-2 rounded-xl bg-white"
       style={{
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        elevation: 5, // Android shadow
+        elevation: 5,
       }}
     >
       <View className="bg-purple-800 p-2 rounded-xl">
@@ -27,7 +27,7 @@ const StationCodeBadge = ({
           {stationCode}
         </Text>
       </View>
-      <Text className="font-interMedium text-xs text-nowrap">
+      <Text className="font-interSemiBold  text-sm text-nowrap">
         {stationName}
       </Text>
     </View>

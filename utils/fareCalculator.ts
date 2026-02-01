@@ -11,6 +11,12 @@ export function calculateFare(
 
   const fares = (faresData as FaresData).fares;
   const fare = fares?.[from.id]?.[to.id]?.[fareType];
+
   if (fare === undefined) return null;
+
+  if (fareType === 'sjt') {
+    return fare;
+  }
+
   return isDiscounted ? fare / 2 : fare;
 }

@@ -58,17 +58,17 @@ export default function TrainMap() {
       attributionEnabled={false}
       scaleBarEnabled={false}
       compassEnabled={true}
-      compassPosition={{ top: 16, right: 16 }}
+      compassPosition={{ bottom: 16, right: 16 }}
       onPress={handleMapPress}
     >
       <Mapbox.Camera
         ref={cameraRef}
         defaultSettings={{
-          centerCoordinate: [center.longitude, center.latitude],
-          zoomLevel: 11.5,
+          centerCoordinate: [center.longitude, center.latitude + 0.01],
+          zoomLevel: 10.7,
         }}
         minZoomLevel={10}
-        maxZoomLevel={16}
+        maxZoomLevel={17}
         animationMode="flyTo"
         animationDuration={300}
       />
@@ -78,7 +78,7 @@ export default function TrainMap() {
         <Mapbox.LineLayer
           id="routeLineGlow"
           style={{
-            lineColor: colors.primary[200],
+            lineColor: colors.violet[200],
             lineWidth: 10,
             lineCap: 'round',
             lineJoin: 'round',
@@ -90,7 +90,7 @@ export default function TrainMap() {
         <Mapbox.LineLayer
           id="routeLine"
           style={{
-            lineColor: colors.primary[500],
+            lineColor: colors.violet[500],
             lineWidth: 5,
             lineCap: 'round',
             lineJoin: 'round',
@@ -126,9 +126,6 @@ export default function TrainMap() {
                     height: isSelected
                       ? MARKER_SELECTED_SIZE + 6
                       : MARKER_SIZE + 4,
-                    backgroundColor: isSelected
-                      ? colors.primary[100]
-                      : 'transparent',
                   },
                 ]}
               >
@@ -139,8 +136,8 @@ export default function TrainMap() {
                       width: isSelected ? MARKER_SELECTED_SIZE : MARKER_SIZE,
                       height: isSelected ? MARKER_SELECTED_SIZE : MARKER_SIZE,
                       backgroundColor: isSelected
-                        ? colors.primary[600]
-                        : colors.primary[700],
+                        ? colors.violet[600]
+                        : colors.violet[700],
                       borderColor: 'white',
                       borderWidth: MARKER_BORDER_WIDTH,
                       ...Platform.select({
@@ -217,6 +214,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   calloutContainer: {
+    flexDirection: 'column',
     alignItems: 'center',
     paddingBottom: 16, // Space between callout and marker
   },
