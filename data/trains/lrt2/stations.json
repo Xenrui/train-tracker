@@ -2,6 +2,7 @@
   "line": "LRT-2",
   "stations": [
     {
+      "id": "recto",
       "code": "PL01",
       "name": "Recto",
       "order": 1,
@@ -10,6 +11,7 @@
       "longitude": 120.9833886
     },
     {
+      "id": "legarda",
       "code": "PL02",
       "name": "Legarda",
       "order": 2,
@@ -17,6 +19,7 @@
       "longitude": 120.992571
     },
     {
+      "id": "pureza",
       "code": "PL03",
       "name": "Pureza",
       "order": 3,
@@ -24,6 +27,7 @@
       "longitude": 121.0050943
     },
     {
+      "id": "v_mapa",
       "code": "PL04",
       "name": "V. Mapa",
       "order": 4,
@@ -31,6 +35,7 @@
       "longitude": 121.01712
     },
     {
+      "id": "j_ruiz",
       "code": "PL05",
       "name": "J. Ruiz",
       "order": 5,
@@ -38,6 +43,7 @@
       "longitude": 121.0261007
     },
     {
+      "id": "gilmore",
       "code": "PL06",
       "name": "Gilmore",
       "order": 6,
@@ -45,6 +51,7 @@
       "longitude": 121.034148
     },
     {
+      "id": "betty_go",
       "code": "PL07",
       "name": "Betty Go-Belmonte",
       "order": 7,
@@ -52,6 +59,7 @@
       "longitude": 121.0427083
     },
     {
+      "id": "cubao",
       "code": "PL08",
       "name": "Cubao",
       "order": 8,
@@ -59,6 +67,7 @@
       "longitude": 121.0529061
     },
     {
+      "id": "anonas",
       "code": "PL09",
       "name": "Anonas",
       "order": 9,
@@ -66,6 +75,7 @@
       "longitude": 121.0647279
     },
     {
+      "id": "katipunan",
       "code": "PL10",
       "name": "Katipunan",
       "order": 10,
@@ -73,6 +83,7 @@
       "longitude": 121.0729019
     },
     {
+      "id": "santolan",
       "code": "PL11",
       "name": "Santolan",
       "order": 11,
@@ -80,6 +91,7 @@
       "longitude": 121.085992
     },
     {
+      "id": "marikina",
       "code": "PL12",
       "name": "Marikina-Pasig",
       "order": 12,
@@ -87,6 +99,7 @@
       "longitude": 121.10064
     },
     {
+      "id": "antipolo",
       "code": "PL13",
       "name": "Antipolo",
       "order": 13,

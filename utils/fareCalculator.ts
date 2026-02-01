@@ -10,11 +10,7 @@ export function calculateFare(
   if (!from || !to) return null;
 
   const fares = (faresData as FaresData).fares;
-  const fare =
-    fares?.[from.code]?.[to.code]?.[fareType] ??
-    fares?.[to.code]?.[from.code]?.[fareType];
-
+  const fare = fares?.[from.id]?.[to.id]?.[fareType];
   if (fare === undefined) return null;
-
   return isDiscounted ? fare / 2 : fare;
 }

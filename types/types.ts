@@ -1,8 +1,24 @@
+export type StationId =
+  | 'recto'
+  | 'legarda'
+  | 'pureza'
+  | 'v_mapa'
+  | 'j_ruiz'
+  | 'gilmore'
+  | 'betty_go'
+  | 'cubao'
+  | 'anonas'
+  | 'katipunan'
+  | 'santolan'
+  | 'marikina'
+  | 'antipolo';
+
 export type FareType = 'beep' | 'sjt';
 
 export type Line = 'LRT2';
 
 export interface Station {
+  id: StationId;
   code: string;
   name: string;
   order: number;
@@ -21,8 +37,8 @@ export interface FareInfo {
 }
 export interface FaresData {
   fares: {
-    [key in string]?: {
-      [key in string]?: FareInfo;
+    [key in StationId]?: {
+      [key in StationId]?: FareInfo;
     };
   };
 }

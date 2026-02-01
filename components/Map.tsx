@@ -4,25 +4,19 @@ import trackGeoJSON from '@/data/trains/lrt2/route.json';
 import stationsJSON from '@/data/trains/lrt2/stations.json';
 import Mapbox from '@rnmapbox/maps';
 import Constants from 'expo-constants';
-import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useCallback, useMemo, useRef, useState } from 'react';
+import { Platform, StyleSheet, View } from 'react-native';
 
-const mapboxToken =
-  Constants.expoConfig?.extra?.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN;
+const mapboxToken = Constants.expoConfig?.extra?.mapboxAccessToken;
 Mapbox.setAccessToken(mapboxToken);
 
-const getMapRegion = () => {
+const getMapCenter = () => {
   const latitudes = stationsJSON.stations.map((s) => s.latitude);
   const longitudes = stationsJSON.stations.map((s) => s.longitude);
 
-  const minLat = Math.min(...latitudes);
-  const maxLat = Math.max(...latitudes);
-  const minLng = Math.min(...longitudes);
-  const maxLng = Math.max(...longitudes);
-
   return {
-    latitude: (minLat + maxLat) / 2,
-    longitude: (minLng + maxLng) / 2,
+    latitude: (Math.min(...latitudes) + Math.max(...latitudes)) / 2,
+    longitude: (Math.min(...longitudes) + Math.max(...longitudes)) / 2,
   };
 };
 
@@ -38,23 +32,65 @@ const getTrackGeoJSON = () => {
   };
 };
 
+// Station marker size
+const MARKER_SIZE = 14;
+const MARKER_SELECTED_SIZE = 18;
+const MARKER_BORDER_WIDTH = 2.5;
+
 export default function TrainMap() {
   const [selectedStation, setSelectedStation] = useState<string | null>(null);
-  const center = getMapRegion();
+  const cameraRef = useRef<Mapbox.Camera>(null);
+  const center = useMemo(() => getMapCenter(), []);
+
+  const handleMarkerPress = useCallback((stationCode: string) => {
+    setSelectedStation((prev) => (prev === stationCode ? null : stationCode));
+  }, []);
+
+  const handleMapPress = useCallback(() => {
+    setSelectedStation(null);
+  }, []);
 
   return (
-    <Mapbox.MapView style={{ flex: 1 }}>
+    <Mapbox.MapView
+      style={styles.map}
+      styleURL={Mapbox.StyleURL.Light}
+      logoEnabled={false}
+      attributionEnabled={false}
+      scaleBarEnabled={false}
+      compassEnabled={true}
+      compassPosition={{ top: 16, right: 16 }}
+      onPress={handleMapPress}
+    >
       <Mapbox.Camera
-        zoomLevel={12}
-        centerCoordinate={[center.longitude, center.latitude]}
+        ref={cameraRef}
+        defaultSettings={{
+          centerCoordinate: [center.longitude, center.latitude],
+          zoomLevel: 11.5,
+        }}
+        minZoomLevel={10}
+        maxZoomLevel={16}
+        animationMode="flyTo"
+        animationDuration={300}
       />
 
-      {/* Track Line */}
+      {/* Track Line with glow effect */}
       <Mapbox.ShapeSource id="route" shape={getTrackGeoJSON()}>
+        <Mapbox.LineLayer
+          id="routeLineGlow"
+          style={{
+            lineColor: colors.primary[200],
+            lineWidth: 10,
+            lineCap: 'round',
+            lineJoin: 'round',
+            lineOpacity: 0.4,
+            lineBlur: 3,
+          }}
+        />
+        {/* Main track line */}
         <Mapbox.LineLayer
           id="routeLine"
           style={{
-            lineColor: colors.primary[300],
+            lineColor: colors.primary[500],
             lineWidth: 5,
             lineCap: 'round',
             lineJoin: 'round',
@@ -67,54 +103,148 @@ export default function TrainMap() {
         const isSelected = selectedStation === station.code;
 
         return (
-          <Mapbox.PointAnnotation
+          <Mapbox.MarkerView
             key={station.code}
-            id={station.code}
+            id={`marker-${station.code}`}
             coordinate={[station.longitude, station.latitude]}
-            onSelected={() => setSelectedStation(station.code)}
-            onDeselected={() => setSelectedStation(null)}
+            anchor={{ x: 0.5, y: 0.5 }}
+            allowOverlap={true}
+            allowOverlapWithPuck={true}
           >
-            <View style={styles.markerContainer}>
-              {/* Show badge above marker when selected */}
-              {isSelected && (
-                <View style={styles.badgeWrapper}>
-                  <StationCodeBadge
-                    trackLine="LRT-2"
-                    stationCode={station.code}
-                    stationName={station.name}
-                  />
-                </View>
-              )}
-
-              {/* Marker pin */}
+            <View
+              style={styles.markerWrapper}
+              onTouchEnd={() => handleMarkerPress(station.code)}
+            >
+              {/* Station marker */}
               <View
                 style={[
-                  styles.marker,
+                  styles.markerOuter,
                   {
-                    backgroundColor: colors.primary[700],
-                    width: isSelected ? 18 : 15,
-                    height: isSelected ? 18 : 15,
+                    width: isSelected
+                      ? MARKER_SELECTED_SIZE + 6
+                      : MARKER_SIZE + 4,
+                    height: isSelected
+                      ? MARKER_SELECTED_SIZE + 6
+                      : MARKER_SIZE + 4,
+                    backgroundColor: isSelected
+                      ? colors.primary[100]
+                      : 'transparent',
                   },
                 ]}
-              />
+              >
+                <View
+                  style={[
+                    styles.marker,
+                    {
+                      width: isSelected ? MARKER_SELECTED_SIZE : MARKER_SIZE,
+                      height: isSelected ? MARKER_SELECTED_SIZE : MARKER_SIZE,
+                      backgroundColor: isSelected
+                        ? colors.primary[600]
+                        : colors.primary[700],
+                      borderColor: 'white',
+                      borderWidth: MARKER_BORDER_WIDTH,
+                      ...Platform.select({
+                        ios: {
+                          shadowColor: '#000',
+                          shadowOffset: { width: 0, height: 2 },
+                          shadowOpacity: isSelected ? 0.3 : 0.2,
+                          shadowRadius: isSelected ? 4 : 2,
+                        },
+                        android: {
+                          elevation: isSelected ? 6 : 3,
+                        },
+                      }),
+                    },
+                  ]}
+                >
+                  {/* Inner dot for terminal stations */}
+                  {station.is_terminal && (
+                    <View
+                      style={[
+                        styles.terminalDot,
+                        {
+                          width: isSelected ? 6 : 4,
+                          height: isSelected ? 6 : 4,
+                        },
+                      ]}
+                    />
+                  )}
+                </View>
+              </View>
             </View>
-          </Mapbox.PointAnnotation>
+          </Mapbox.MarkerView>
         );
       })}
+
+      {selectedStation &&
+        (() => {
+          const station = stationsJSON.stations.find(
+            (s) => s.code === selectedStation,
+          );
+          if (!station) return null;
+
+          return (
+            <Mapbox.MarkerView
+              key={`callout-${station.code}`}
+              id={`callout-${station.code}`}
+              coordinate={[station.longitude, station.latitude]}
+              anchor={{ x: 0.5, y: 1 }}
+              allowOverlap={true}
+              allowOverlapWithPuck={true}
+            >
+              <View style={styles.calloutContainer}>
+                <StationCodeBadge
+                  trackLine="LRT-2"
+                  stationCode={station.code}
+                  stationName={station.name}
+                />
+                {/* Callout arrow */}
+                <View style={styles.calloutArrow} />
+              </View>
+            </Mapbox.MarkerView>
+          );
+        })()}
     </Mapbox.MapView>
   );
 }
 
 const styles = StyleSheet.create({
-  markerContainer: {
-    alignItems: 'center',
+  map: {
+    flex: 1,
   },
-  badgeWrapper: {
-    marginBottom: 8,
+  markerWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  calloutContainer: {
+    alignItems: 'center',
+    paddingBottom: 16, // Space between callout and marker
+  },
+  calloutArrow: {
+    width: 0,
+    height: 0,
+    backgroundColor: 'transparent',
+    borderStyle: 'solid',
+    borderLeftWidth: 8,
+    borderRightWidth: 8,
+    borderTopWidth: 8,
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderTopColor: 'white',
+    marginTop: -1,
+  },
+  markerOuter: {
+    borderRadius: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   marker: {
     borderRadius: 50,
-    borderWidth: 2,
-    borderColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  terminalDot: {
+    borderRadius: 50,
+    backgroundColor: 'white',
   },
 });
